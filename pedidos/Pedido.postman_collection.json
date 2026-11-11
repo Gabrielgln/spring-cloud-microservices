@@ -1,0 +1,133 @@
+{
+  "info": {
+    "_postman_id": "c6b24a60-5d9b-4a9b-9faf-6615452bafb9",
+    "name": "Pedido",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26487061"
+  },
+  "item": [
+    {
+      "name": "Realizar Pedido",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"itens\": [\r\n    {\r\n        \"quantidade\": 10,\r\n        \"descrição\": \"Coca-cola\"\r\n    },\r\n    {\r\n        \"quantidade\": 5,\r\n        \"descrição\": \"Mc Chicken\"\r\n    }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8082/pedidos-ms/pedidos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "pedidos-ms",
+            "pedidos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verificar Balanceamento de Carga",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/pedidos-ms/pedidos/porta",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "pedidos-ms",
+            "pedidos",
+            "porta"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Pagar Pedido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/pedidos-ms/pedidos/1/pago",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "pedidos-ms",
+            "pedidos",
+            "1",
+            "pago"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Pedidos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/pedidos-ms/pedidos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "pedidos-ms",
+            "pedidos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Atualizar Status do Pedido",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"status\": \"REALIZADO\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8082/pedidos-ms/pedidos/1/status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "pedidos-ms",
+            "pedidos",
+            "1",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
