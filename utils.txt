@@ -1,0 +1,7 @@
+Comando para executar outra instância de um projeto:
+
+"<absolute_path_do_projeto>\mvnw.cmd" spring-boot:run -f "<absolute_path_do_projeto>\pom.xml"
+
+Caso dê erro por não encontrar o wrapper, execute esse comando:
+
+mvn wrapper:wrapper

@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/alurafood-pagamento?createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+  application:
+    name: pagamentos-ms
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka
+  instance:
+    prefer-ip-address: true
+
+server:
+  port: 0
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      atualizaPedido:
+        slidingWindowSize: 3
+        minimumNumberOfCalls: 2
+        waitDurationInOpenState: 50s
+
+#slidingWindowSize: 3 Define a quantidade de requisições necessária para avaliar estatisticamente se ele pode permanecer aberto ou fechado.
+#minimumNumberOfCalls: 2 Número mínimo de chamadas para o Circuit Breaker entrar em ação.
+#waitDurationInOpenState: 50s Quantidade de tempo que o Circuit Breaker vai ficar aberto.
