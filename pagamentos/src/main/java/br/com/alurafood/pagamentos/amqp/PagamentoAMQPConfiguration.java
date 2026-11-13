@@ -1,7 +1,6 @@
 package br.com.alurafood.pagamentos.amqp;
 
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,21 +12,21 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class PagamentoAMQPConfiguration {
+//    @Bean
+//    public Queue queue(){
+//        // return  new Queue("pagamento.concluido", true);
+//        return QueueBuilder
+//                .durable("pagamento.concluido")
+//                .build();
+//    }
+
     @Bean
-    public Queue criaFila(){
-        // return  new Queue("pagamento.concluido", true);
-        return QueueBuilder
-                .durable("pagamento.concluido")
-                .build();
+    public RabbitAdmin rabbitAdmin(ConnectionFactory factory) {
+        return new RabbitAdmin(factory);
     }
 
     @Bean
-    public RabbitAdmin criaRabbitAdmin(ConnectionFactory conn) {
-        return new RabbitAdmin(conn);
-    }
-
-    @Bean
-    public ApplicationListener<ApplicationReadyEvent> inicializaAdmin(RabbitAdmin rabbitAdmin){
+    public ApplicationListener<ApplicationReadyEvent> init(RabbitAdmin rabbitAdmin){
         return event -> rabbitAdmin.initialize();
     }
 
@@ -38,7 +37,7 @@ public class PagamentoAMQPConfiguration {
      * @return conversor de mensagens JSON
      */
     @Bean
-    public Jackson2JsonMessageConverter messageConverter(){
+    public Jackson2JsonMessageConverter converter(){
         return new Jackson2JsonMessageConverter();
     }
 
@@ -47,17 +46,27 @@ public class PagamentoAMQPConfiguration {
      * de mensagens JSON, permitindo a serialização e desserialização
      * automática dos objetos enviados e recebidos pelo RabbitMQ.
      *
-     * @param conn conexão com o broker RabbitMQ
+     * @param factory conexão com o broker RabbitMQ
      * @param converter conversor de mensagens JSON
      * @return RabbitTemplate configurado com o conversor JSON
      */
     @Bean
     public RabbitTemplate rabbitTemplate(
-            ConnectionFactory conn,
+            ConnectionFactory factory,
             Jackson2JsonMessageConverter converter) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(conn);
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(factory);
         rabbitTemplate.setMessageConverter(converter);
         return rabbitTemplate;
     }
 
+    /**
+     * Cria e configura um FanoutExchange responsável por encaminhar as mensagens
+     * recebidas para todas as filas vinculadas a ele.
+     *
+     * @return instância do FanoutExchange configurada com o nome "pagamentos.ex".
+     */
+    @Bean
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange("pagamentos.ex");
+    }
 }
